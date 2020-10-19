@@ -8,10 +8,12 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
-
+import logging
 
 from .models import Message
 from .serializer import MessageSerializer
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -41,9 +43,11 @@ def send_message(request):
                     connection=connection,
                 ).send()
                 message.delete()
-    except SMTPException:
+    except SMTPException as exc:
+        logger.error(exc)
         return Response({'errors': 'SMTP Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    except Exception as e:
+    except Exception as exc:
+        logger.error(exc)
         return Response({'errors': 'Internal Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response({"message": "Messages send"})
 
