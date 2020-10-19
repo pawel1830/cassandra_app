@@ -1,3 +1,14 @@
-from django.db import models
+import uuid
+from datetime import datetime
 
-# Create your models here.
+from cassandra.cqlengine import columns
+from django_cassandra_engine.models import DjangoCassandraModel
+
+
+class Message(DjangoCassandraModel):
+    uuid = columns.UUID(primary_key=True, default=uuid.uuid4)
+    email = columns.Text(index=True)
+    magic_number = columns.Integer(index=True)
+    title = columns.Text(required=True)
+    created_at = columns.DateTime(default=datetime.now())
+    content = columns.Text(required=True)
