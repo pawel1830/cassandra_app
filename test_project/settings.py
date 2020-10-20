@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,22 +75,20 @@ WSGI_APPLICATION = 'test_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+cassandra_host = os.environ.get('CASSANDRA_HOST', 'localhost')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'cassandra_db',
         'TEST_NAME': 'test_db',
-        'HOST': 'localhost',
+        'HOST': cassandra_host,
         'OPTIONS': {
             'replication': {
                 'strategy_class': 'SimpleStrategy',
                 'replication_factor': 1
             }
         }
-    },
-    'test': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
