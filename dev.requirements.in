@@ -1,0 +1,4 @@
+django>3
+django-cassandra-engine
+djangorestframework
+uwsgi

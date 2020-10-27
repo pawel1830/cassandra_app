@@ -12,3 +12,7 @@ class Message(DjangoCassandraModel):
     title = columns.Text(required=True)
     created_at = columns.DateTime(default=datetime.now())
     content = columns.Text(required=True)
+
+    __options__ = {
+        "default_time_to_live": 600
+    }
