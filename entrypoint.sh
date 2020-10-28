@@ -1,5 +1,4 @@
 #!/bin/sh
-echo "$@"
 python /app/check_cassandra.py
 ret=$?
 if [ $ret -ne 0 ]; then

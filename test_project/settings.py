@@ -22,8 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#_7^2-hmz#5#*6qq!_tzu-nv$7v-f@c)jx&8(4=@$!g0h-_-te'
 
+cassandra_hosts = os.environ.get('CASSANDRA_HOSTS', 'localhost')
+debug = os.environ.get('DEBUG', False)
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(debug)
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,7 +52,6 @@ WSGI_APPLICATION = 'test_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-cassandra_hosts = os.environ.get('CASSANDRA_HOSTS', 'localhost')
 
 DATABASES = {
     'default': {
@@ -93,12 +95,17 @@ USE_TZ = True
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jtestowy21@gmail.com'
+EMAIL_HOST_PASSWORD = 'JanTestowyKtoregoMuszeUzyc'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = '1.2.3.4'
 # EMAIL_TIMEOUT = 5
-DEFAULT_FROM_EMAIL = 'info@test_project.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
