@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '#_7^2-hmz#5#*6qq!_tzu-nv$7v-f@c)jx&8(4=@$!g0h-_-te'
 
 cassandra_hosts = os.environ.get('CASSANDRA_HOSTS', 'localhost')
-debug = os.environ.get('DEBUG', False)
+debug = os.environ.get('DEBUG', 'true').lower() == 'true'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(debug)
