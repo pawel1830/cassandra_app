@@ -1,0 +1,17 @@
+version: '3'
+services:
+  cassandra_db:
+    image: cassandra:latest
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+  api:
+    image: pawel1830/test_project:latest
+    ports:
+    - 0:8080:8080
+    environment:
+      - DEBUG=0
+      - CASSANDRA_HOSTS=cassandra_db
+    links:
+      - cassandra_db
+volumes:
+  cassandra_data:
