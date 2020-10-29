@@ -1,4 +1,6 @@
 import uuid
+
+from django.db import connection
 from django.utils.timezone import now
 
 
@@ -18,3 +20,7 @@ class Message(DjangoCassandraModel):
         "default_time_to_live": 600
     }
     __table_name__ = 'message'
+
+    def truncate(self):
+        with connection.cursor() as cursor:
+            cursor.execute('TRUNCATE TABLE {}'.format(self.__table_name__))
